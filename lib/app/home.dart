@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:memorama2/config/config.dart';
+import 'dart:io';
+
+import '../db/sqlite.dart';
+import '../widgets/botonera.dart';
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Memorama"),
+        actions: <Widget>[
+          IconButton(onPressed: () async {
+            if (Platform.isAndroid || Platform.isIOS){
+              // Navigator.pop(context);
+              //SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+              SystemNavigator.pop();
+              await Sqlite.guardar(victoriasGlobal,derrotasGlobal);
+              derrotasGlobal=0;
+              victoriasGlobal=0;
+
+            }
+            if (Platform.isLinux || Platform.isWindows){
+              exit(0);
+            }
+          }, icon: Icon(Icons.exit_to_app)),
+        ],
+      ),
+      body: const Botonera(),
+    );
+  }
+}
