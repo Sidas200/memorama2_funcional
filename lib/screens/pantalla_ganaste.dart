@@ -14,37 +14,71 @@ class PantallaGanaste extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("¡Ganaste!")),
+      appBar: AppBar(
+        title: Text("¡Ganaste!"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Imagen del trofeo
+            Image.asset(
+              'resources/images/trofeo.png', // Asegúrate de tener esta imagen en assets
+              height: 100,
+            ),
+            SizedBox(height: 20),
+
+            // Texto principal
             Text(
-              "¡Ganaste!! Felicidades!",
+              "¡Ganaste!!\nFelicidades!!",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
+
+            // Estadísticas
             Text("Tiempo: ${tiempo}s", style: TextStyle(fontSize: 18)),
             Text("Movimientos: $movimientos", style: TextStyle(fontSize: 18)),
             SizedBox(height: 30),
+
+            // Botón "Volver a jugar"
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFF5B97A), // Color beige-naranja
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+              ),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => Tablero(nivel),
-                    settings: RouteSettings(name: "Parrilla"),
-                  ),
+                  MaterialPageRoute(builder: (context) => Tablero(nivel)),
                 );
               },
-              child: Text("Volver a jugar"),
+              child: Text("Volver a jugar", style: TextStyle(fontSize: 18, color: Colors.black)),
             ),
+            SizedBox(height: 10),
+
+            // Botón "Menú principal"
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFF5B97A), // Color beige-naranja
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Salir al menu"),
+              child: Text("Menú principal", style: TextStyle(fontSize: 18, color: Colors.black)),
             ),
           ],
         ),

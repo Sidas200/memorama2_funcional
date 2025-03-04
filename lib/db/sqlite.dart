@@ -37,14 +37,13 @@ class Sqlite {
     final iguana.Database db = await Sqlite.db();
     DateTime now = DateTime.now();
     String fecha = "${now.year}-${now.month}-${now.day}";
-    victoriasGlobal=0;
-    derrotasGlobal=0;
     int id = await db.insert(
       "memorama",
       {"victorias": victoriasGlobal, "derrotas": derrotasGlobal, "fecha": fecha, "nivel": niv},
       conflictAlgorithm: iguana.ConflictAlgorithm.replace,
     );
-
+    victoriasGlobal=0;
+    derrotasGlobal=0;
 
     print("Registro guardado con ID: $id");
     return id;

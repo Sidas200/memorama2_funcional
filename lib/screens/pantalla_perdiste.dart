@@ -17,43 +17,66 @@ class PantallaPerdiste extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Perdiste :(")),
+      appBar: AppBar(
+        title: Text("Perdiste :("),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'resources/images/perdiste.png',
+              height: 100,
+            ),
+            SizedBox(height: 20),
             Text(
-              "¡Perdiste!! Sigue intentando!",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              "Perdiste\nSigue intentándolo!!",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: "outfit"),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
-            Text("Pares totales: $paresTotales", style: TextStyle(fontSize: 18)),
-            Text("Pares restantes: $paresRestantes", style: TextStyle(fontSize: 18)),
             Text("Movimientos: $movimientos", style: TextStyle(fontSize: 18)),
+            Text("Pares encontrados: ${paresTotales - paresRestantes}", style: TextStyle(fontSize: 18)),
+            Text("Pares restantes: $paresRestantes", style: TextStyle(fontSize: 18)),
             SizedBox(height: 30),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFF5B97A),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+              ),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => Tablero(nivel),
-                    settings: RouteSettings(name: "Parrilla"),
-                  ),
+                  MaterialPageRoute(builder: (context) => Tablero(nivel)),
                 );
               },
-              child: Text("Volver a jugar"),
+              child: Text("Volver a jugar", style: TextStyle(fontSize: 18, color: Colors.black)),
             ),
+            SizedBox(height: 10),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFF5B97A),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+              ),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const Home(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const Home()),
                 );
               },
-              child: Text("Salir al menu"),
+              child: Text("Menú principal", style: TextStyle(fontSize: 18, color: Colors.black)),
             ),
           ],
         ),

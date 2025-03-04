@@ -153,7 +153,7 @@ class _TableroState extends State<Tablero> {
       ),
       body: Parrilla(widget.nivel, onGameEnd: resultado,),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.purple[100],
+        color: Color(0xFFF5DEB3),
         shape: CircularNotchedRectangle(),
         child: LayoutBuilder(
           builder: (context, constraints) {
