@@ -9,8 +9,6 @@ class Sqlite {
     final io.Directory appDocumentsDir = await getApplicationDocumentsDirectory();
     String ruta = join(appDocumentsDir.path, "memorama.db");
 
-    print("Ruta de la base de datos: $ruta");
-
     return iguana.openDatabase(
       ruta,
       version: 1,
@@ -36,7 +34,9 @@ class Sqlite {
   static Future<int> guardar(int victorias, int derrotas, String niv) async {
     final iguana.Database db = await Sqlite.db();
     DateTime now = DateTime.now();
-    String fecha = "${now.year}-${now.month}-${now.day}";
+    String fecha = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} "
+        "${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}";
+
     int id = await db.insert(
       "memorama",
       {"victorias": victoriasGlobal, "derrotas": derrotasGlobal, "fecha": fecha, "nivel": niv},
@@ -51,10 +51,12 @@ class Sqlite {
 
   static Future<List<Map<String, dynamic>>> consultar() async {
     final iguana.Database db = await Sqlite.db();
-    List<Map<String, dynamic>> resultado = await db.query("memorama");
 
-    print("Datos consultados: $resultado");
+    List<Map<String, dynamic>> data = await db.query(
+        "memorama",
+        orderBy: "datetime(fecha) DESC"
+    );
 
-    return resultado;
+    return data;
   }
 }

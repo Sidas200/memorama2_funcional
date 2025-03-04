@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:memorama2/config/config.dart';
 import 'dart:io';
 
-import '../db/sqlite.dart';
 import '../widgets/botonera.dart';
 
 class Home extends StatefulWidget {
@@ -22,13 +20,7 @@ class _HomeState extends State<Home> {
         actions: <Widget>[
           IconButton(onPressed: () async {
             if (Platform.isAndroid || Platform.isIOS){
-              // Navigator.pop(context);
-              //SystemChannels.platform.invokeMethod('SystemNavigator.pop');
               SystemNavigator.pop();
-              //await Sqlite.guardar(victoriasGlobal,derrotasGlobal);
-              //derrotasGlobal=0;
-              //victoriasGlobal=0;
-
             }
             if (Platform.isLinux || Platform.isWindows){
               exit(0);

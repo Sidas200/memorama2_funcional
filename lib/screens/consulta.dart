@@ -23,11 +23,18 @@ class _ConsultaState extends State<Consulta> {
 
   Future<void> cargarDatos() async {
     List<Map<String, dynamic>> data = List.from(await Sqlite.consultar());
-    data.sort((a, b) => (b['fecha'] ?? '').compareTo(a['fecha'] ?? ''));
+
+    data.sort((a, b) {
+      DateTime fechaA = DateTime.parse(a['fecha'] + ":00");
+      DateTime fechaB = DateTime.parse(b['fecha'] + ":00");
+      return fechaB.compareTo(fechaA);
+    });
+
     setState(() {
       historial = data;
     });
   }
+
 
   Color obtenerColorNivel(String nivel) {
     switch (nivel.toLowerCase()) {
@@ -59,20 +66,6 @@ class _ConsultaState extends State<Consulta> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('resources/images/trofeo.png', height: 30),
-          const SizedBox(height: 5),
-          Text("Partidas ganadas:\n$victoriasGlobal",
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center),
-          const SizedBox(height: 20),
-
-          Image.asset('resources/images/perdiste.png', height: 30),
-          const SizedBox(height: 5),
-          Text("Partidas perdidas:\n$derrotasGlobal",
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center),
-          const SizedBox(height: 20),
-
           const Text("Historial", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
 

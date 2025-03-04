@@ -21,10 +21,12 @@ class PantallaPerdiste extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Perdiste :("),
+        automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
+          icon: Icon(Icons.arrow_back),
+          onPressed: () async {
+            Navigator.of(context).pop();
+            await Sqlite.guardar(victoriasGlobal, derrotasGlobal, nivel!.name);
           },
         ),
       ),
@@ -45,7 +47,7 @@ class PantallaPerdiste extends StatelessWidget {
             SizedBox(height: 20),
             Text("Movimientos: $movimientos", style: TextStyle(fontSize: 18)),
             Text("Pares encontrados: ${paresTotales - paresRestantes}", style: TextStyle(fontSize: 18)),
-            Text("Pares restantes: $paresRestantes", style: TextStyle(fontSize: 18)),
+            Text("Pares faltantes: $paresRestantes", style: TextStyle(fontSize: 18)),
             SizedBox(height: 30),
             ElevatedButton(
               style: ElevatedButton.styleFrom(

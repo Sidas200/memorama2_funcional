@@ -17,10 +17,12 @@ class PantallaGanaste extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("¡Ganaste!"),
+        automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
+          icon: Icon(Icons.arrow_back),
+          onPressed: () async {
+            Navigator.of(context).pop();
+            await Sqlite.guardar(victoriasGlobal, derrotasGlobal, nivel!.name);
           },
         ),
       ),
@@ -44,7 +46,10 @@ class PantallaGanaste extends StatelessWidget {
             SizedBox(height: 20),
 
 
-            Text("Tiempo: ${tiempo}s", style: TextStyle(fontSize: 18)),
+            Text(
+              "Tiempo transcurrido: ${(180 - tiempo!) ~/ 60}:${((180 - tiempo!) % 60).toString().padLeft(2, '0')} min",
+              style: TextStyle(fontSize: 18),
+            ),
             Text("Movimientos: $movimientos", style: TextStyle(fontSize: 18)),
             SizedBox(height: 30),
 
@@ -66,8 +71,6 @@ class PantallaGanaste extends StatelessWidget {
               child: Text("Volver a jugar", style: TextStyle(fontSize: 18, color: Colors.black)),
             ),
             SizedBox(height: 10),
-
-
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFFF5B97A),

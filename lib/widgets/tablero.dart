@@ -1,11 +1,7 @@
 import 'dart:async';
 
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:memorama2/widgets/parrilla.dart';
-
-
 
 import '../app/home.dart';
 import '../config/config.dart';
@@ -44,11 +40,12 @@ class _TableroState extends State<Tablero> {
   void mostrarDialogo(String titulo, String contenido, VoidCallback onConfirmar) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color(0xFFF5DEB3), // Fondo beige claro
+          backgroundColor: Color(0xFFF5DEB3),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20), // Bordes redondeados
+            borderRadius: BorderRadius.circular(20),
           ),
           title: Text(
             titulo,
@@ -64,9 +61,9 @@ class _TableroState extends State<Tablero> {
           actions: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFF5B97A), // Color naranja suave
+                backgroundColor: Color(0xFFF5B97A),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Bordes redondeados
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               ),
@@ -81,9 +78,9 @@ class _TableroState extends State<Tablero> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFF5B97A), // Color naranja suave
+                backgroundColor: Color(0xFFF5B97A),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Bordes redondeados
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               ),
@@ -161,29 +158,56 @@ class _TableroState extends State<Tablero> {
         break;
     }
   }
+  PopupMenuItem<MenuOpciones> _construirMenu(MenuOpciones value, String text) {
+    return PopupMenuItem(
+      value: value,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        decoration: BoxDecoration(
+          color: Color(0xFFFFB366),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () async {
+              Navigator.of(context).pop();
+              await Sqlite.guardar(victoriasGlobal, derrotasGlobal, widget.nivel!.name);
+              },
+            ),
         title: Text("Nivel: ${widget.nivel?.name}"),
         actions: [
           PopupMenuButton<MenuOpciones>(
             onSelected: handleMenu,
-            itemBuilder: (context) =>
-            [
-              PopupMenuItem(
-                  value: MenuOpciones.juego_nuevo, child: Text("Juego nuevo")),
-              PopupMenuItem(
-                  value: MenuOpciones.reiniciar, child: Text("Reiniciar")),
-              PopupMenuItem(
-                  value: MenuOpciones.consultar, child: Text("Consultar")),
-              PopupMenuItem(value: MenuOpciones.salir, child: Text("Salir")),
+            color: Color(0xFFFFD699),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15), // Bordes redondeados
+            ),
+            itemBuilder: (context) => [
+              _construirMenu(MenuOpciones.juego_nuevo, "Juego nuevo"),
+              _construirMenu(MenuOpciones.reiniciar, "Reiniciar"),
+              _construirMenu(MenuOpciones.consultar, "Consultar"),
+              _construirMenu(MenuOpciones.salir, "Salir"),
             ],
           ),
         ],
       ),
-      body: Parrilla(widget.nivel, onGameEnd: resultado,),
+      body: Parrilla(widget.nivel, finJuego: resultado,),
       bottomNavigationBar: BottomAppBar(
         color: Color(0xFFF5DEB3),
         shape: CircularNotchedRectangle(),
