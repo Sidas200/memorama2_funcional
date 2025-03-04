@@ -41,29 +41,60 @@ class _TableroState extends State<Tablero> {
     });
   }
 
-  void mostrarDialogo(String titulo, String contenido,
-      VoidCallback onConfirmar) {
+  void mostrarDialogo(String titulo, String contenido, VoidCallback onConfirmar) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(titulo),
-          content: Text(contenido),
+          backgroundColor: Color(0xFFF5DEB3), // Fondo beige claro
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20), // Bordes redondeados
+          ),
+          title: Text(
+            titulo,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          content: Text(
+            contenido,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16),
+          ),
+          actionsAlignment: MainAxisAlignment.center,
           actions: [
-            TextButton(
-              onPressed: () => {
-                Navigator.of(context).pop(),
-                pauseClock = false,
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFF5B97A), // Color naranja suave
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Bordes redondeados
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                pauseClock = false;
               },
-              child: Text("Cancelar"),
+              child: Text(
+                "No",
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
             ),
-
-            TextButton(
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFF5B97A), // Color naranja suave
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Bordes redondeados
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 onConfirmar();
               },
-              child: Text("Aceptar"),
+              child: Text(
+                "Sí",
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
             ),
           ],
         );
@@ -71,13 +102,14 @@ class _TableroState extends State<Tablero> {
     );
   }
 
+
   Future<void> handleMenu(MenuOpciones opcion) async {
     pauseClock=true;
     switch (opcion) {
       case MenuOpciones.reiniciar:
         mostrarDialogo(
           "Reiniciar Juego",
-          "¿Estás seguro de que quieres reiniciar la partida?",
+          "¿Estás seguro de que quieres reiniciar la partida?, se perdera el progeso",
               () {
             Navigator.pushReplacement(
               context,
@@ -89,7 +121,7 @@ class _TableroState extends State<Tablero> {
       case MenuOpciones.consultar:
         mostrarDialogo(
           "Consultar",
-          "¿Quieres abrir la consulta?",
+          "¿Quieres abrir la consulta?, se perdera el progreso de la partida",
               () async {
             Navigator.pop(context);
             await Navigator.push(
@@ -102,7 +134,7 @@ class _TableroState extends State<Tablero> {
       case MenuOpciones.juego_nuevo:
         mostrarDialogo(
           "Juego nuevo",
-          "¿Quieres empezar un nuevo juego?",
+          "¿Quieres empezar un nuevo juego?, se contrara como partida perdida",
               () {
             setState(() {
               derrotasGlobal++;
@@ -117,7 +149,7 @@ class _TableroState extends State<Tablero> {
       case MenuOpciones.salir:
         mostrarDialogo(
           "Salir",
-          "¿Seguro que quieres salir?",
+          "¿Seguro que quieres salir?, se guardara la información en la base de datos",
               () async {
                 Navigator.pushReplacement(
                   context,

@@ -3,6 +3,8 @@ import 'package:memorama2/app/home.dart';
 import 'package:memorama2/config/config.dart';
 import 'package:memorama2/widgets/tablero.dart';
 
+import '../db/sqlite.dart';
+
 class PantallaPerdiste extends StatelessWidget {
   final int movimientos;
 
@@ -70,11 +72,12 @@ class PantallaPerdiste extends StatelessWidget {
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
               ),
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const Home()),
                 );
+                await Sqlite.guardar(victoriasGlobal, derrotasGlobal, nivel!.name);
               },
               child: Text("Menú principal", style: TextStyle(fontSize: 18, color: Colors.black)),
             ),

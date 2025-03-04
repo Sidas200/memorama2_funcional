@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memorama2/widgets/tablero.dart';
 
 import '../config/config.dart';
+import '../db/sqlite.dart';
 
 class PantallaGanaste extends StatelessWidget {
   final int movimientos;
@@ -27,14 +28,14 @@ class PantallaGanaste extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Imagen del trofeo
+
             Image.asset(
-              'resources/images/trofeo.png', // Asegúrate de tener esta imagen en assets
+              'resources/images/trofeo.png',
               height: 100,
             ),
             SizedBox(height: 20),
 
-            // Texto principal
+
             Text(
               "¡Ganaste!!\nFelicidades!!",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -42,15 +43,15 @@ class PantallaGanaste extends StatelessWidget {
             ),
             SizedBox(height: 20),
 
-            // Estadísticas
+
             Text("Tiempo: ${tiempo}s", style: TextStyle(fontSize: 18)),
             Text("Movimientos: $movimientos", style: TextStyle(fontSize: 18)),
             SizedBox(height: 30),
 
-            // Botón "Volver a jugar"
+
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFF5B97A), // Color beige-naranja
+                backgroundColor: Color(0xFFF5B97A),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -66,17 +67,18 @@ class PantallaGanaste extends StatelessWidget {
             ),
             SizedBox(height: 10),
 
-            // Botón "Menú principal"
+
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFF5B97A), // Color beige-naranja
+                backgroundColor: Color(0xFFF5B97A),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
               ),
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(context);
+                await Sqlite.guardar(victoriasGlobal, derrotasGlobal, nivel!.name);
               },
               child: Text("Menú principal", style: TextStyle(fontSize: 18, color: Colors.black)),
             ),
