@@ -49,6 +49,7 @@ class _ParrillaState extends State<Parrilla>  {
     pauseClock=false;
 
     Future.delayed(Duration(seconds: 3), () {
+      if (!mounted) return;
       _timer = Timer.periodic(Duration(seconds: 1), (timer) {
         if (!pauseClock) {
           setState(() {

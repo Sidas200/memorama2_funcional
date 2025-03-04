@@ -25,6 +25,7 @@ class Sqlite {
     await db.execute("""
       CREATE TABLE memorama (
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        nivel TEXT NOT NULL,
         victorias INTEGER NOT NULL,
         derrotas INTEGER NOT NULL,
         fecha TEXT NOT NULL
@@ -32,15 +33,18 @@ class Sqlite {
     """);
   }
 
-  static Future<int> guardar(int victorias, int derrotas) async {
+  static Future<int> guardar(int victorias, int derrotas, String niv) async {
     final iguana.Database db = await Sqlite.db();
-    String fecha = DateTime.now().toIso8601String();
-
+    DateTime now = DateTime.now();
+    String fecha = "${now.year}-${now.month}-${now.day}";
+    victoriasGlobal=0;
+    derrotasGlobal=0;
     int id = await db.insert(
       "memorama",
-      {"victorias": victoriasGlobal, "derrotas": derrotasGlobal, "fecha": fecha},
+      {"victorias": victoriasGlobal, "derrotas": derrotasGlobal, "fecha": fecha, "nivel": niv},
       conflictAlgorithm: iguana.ConflictAlgorithm.replace,
     );
+
 
     print("Registro guardado con ID: $id");
     return id;

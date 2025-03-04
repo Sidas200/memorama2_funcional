@@ -7,6 +7,7 @@ import 'package:memorama2/widgets/parrilla.dart';
 
 
 
+import '../app/home.dart';
 import '../config/config.dart';
 import '../db/sqlite.dart';
 import '../screens/consulta.dart';
@@ -117,12 +118,14 @@ class _TableroState extends State<Tablero> {
         mostrarDialogo(
           "Salir",
           "¿Seguro que quieres salir?",
-              () {
-            SystemNavigator.pop();
+              () async {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home()),
+                );
+                await Sqlite.guardar(victoriasGlobal, derrotasGlobal, widget.nivel!.name);
           },
         );
-        // se gurdaran los datos en la base de datos
-        await Sqlite.guardar(victoriasGlobal, derrotasGlobal);
         break;
     }
   }
@@ -207,9 +210,12 @@ class _TableroState extends State<Tablero> {
                   onPressed: () async {
                     pauseClock=true;
                     mostrarDialogo("Salir", "¿Seguro que quieres salir?, se guardará la información en la base de datos", () {
-                      SystemNavigator.pop();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Home()),
+                      );
                     });
-                    await Sqlite.guardar(victoriasGlobal, derrotasGlobal);
+                    await Sqlite.guardar(victoriasGlobal, derrotasGlobal, widget.nivel!.name);
                   },
                 ),
               ],

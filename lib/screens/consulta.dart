@@ -53,7 +53,7 @@ class _ConsultaState extends State<Consulta> {
                   title: Text("Fecha: ${partida['fecha'] ?? 'Desconocida'}",
                       style: const TextStyle(fontSize: 16)),
                   subtitle: Text(
-                      "Victorias: ${partida['victorias'] ?? 0} | Derrotas: ${partida['derrotas'] ?? 0}",
+                      "Victorias: ${partida['victorias'] ?? 0} | Derrotas: ${partida['derrotas'] ?? 0} | Nivel: ${partida['nivel']}",
                       style: const TextStyle(fontSize: 14)),
                 );
               },

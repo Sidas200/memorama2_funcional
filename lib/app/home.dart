@@ -25,9 +25,9 @@ class _HomeState extends State<Home> {
               // Navigator.pop(context);
               //SystemChannels.platform.invokeMethod('SystemNavigator.pop');
               SystemNavigator.pop();
-              await Sqlite.guardar(victoriasGlobal,derrotasGlobal);
-              derrotasGlobal=0;
-              victoriasGlobal=0;
+              //await Sqlite.guardar(victoriasGlobal,derrotasGlobal);
+              //derrotasGlobal=0;
+              //victoriasGlobal=0;
 
             }
             if (Platform.isLinux || Platform.isWindows){
