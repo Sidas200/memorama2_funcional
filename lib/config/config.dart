@@ -84,7 +84,7 @@ void barajar(Nivel nivel){
 
   switch(nivel){
     case Nivel.facil:
-      size =4;
+      size =16;
       break;
     case Nivel.medio:
       size =24;
