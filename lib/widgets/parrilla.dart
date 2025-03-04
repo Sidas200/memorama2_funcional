@@ -45,7 +45,7 @@ class _ParrillaState extends State<Parrilla>  {
     paresTotales = baraja.length ~/2;
     paresRestantes = paresTotales;
     movimientos=0;
-    segundos=10;
+    segundos=180;
     pauseClock=false;
 
     Future.delayed(Duration(seconds: 3), () {
@@ -82,7 +82,7 @@ class _ParrillaState extends State<Parrilla>  {
     if (paresRestantes == 0) {
       widget.onGameEnd(true);
       _timer?.cancel();
-      Future.delayed(Duration(milliseconds: 100), () {
+      Future.delayed(Duration(milliseconds: 500), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -112,7 +112,7 @@ class _ParrillaState extends State<Parrilla>  {
           padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.pink[200],
+            color: Colors.red[200],
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
@@ -129,7 +129,10 @@ class _ParrillaState extends State<Parrilla>  {
               Text("Pares: $paresRestantes",  style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 12),),
               Text("Pares total: $paresTotales", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 12)),
               Text("Movimientos: $movimientos", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 12)),
-              Text("Tiempo: ${segundos}s", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 12)),
+              Text(
+                "Tiempo: ${segundos! ~/ 60}:${(segundos! % 60).toString().padLeft(2, '0')}s",
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 12),
+              ),
             ],
           ),
         ),
