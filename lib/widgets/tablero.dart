@@ -27,15 +27,6 @@ class _TableroState extends State<Tablero> {
     super.initState();
   }
 
-  void resultado(bool gano) {
-    setState(() {
-      if (gano) {
-        victoriasGlobal++;
-      } else {
-        derrotasGlobal++;
-      }
-    });
-  }
 
   void mostrarDialogo(String titulo, String contenido, VoidCallback onConfirmar) {
     showDialog(
@@ -148,11 +139,11 @@ class _TableroState extends State<Tablero> {
           "Salir",
           "¿Seguro que quieres salir?, se guardara la información en la base de datos",
               () async {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home()),
-                );
-                await Sqlite.guardar(victoriasGlobal, derrotasGlobal, widget.nivel!.name);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+            await Sqlite.guardar(victoriasGlobal, derrotasGlobal, widget.nivel!.name);
           },
         );
         break;
@@ -184,12 +175,12 @@ class _TableroState extends State<Tablero> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () async {
-              Navigator.of(context).pop();
-              await Sqlite.guardar(victoriasGlobal, derrotasGlobal, widget.nivel!.name);
-              },
-            ),
+          icon: Icon(Icons.arrow_back),
+          onPressed: () async {
+            Navigator.of(context).pop();
+            await Sqlite.guardar(victoriasGlobal, derrotasGlobal, widget.nivel!.name);
+          },
+        ),
         title: Text("Nivel: ${widget.nivel?.name}"),
         actions: [
           PopupMenuButton<MenuOpciones>(
@@ -207,7 +198,7 @@ class _TableroState extends State<Tablero> {
           ),
         ],
       ),
-      body: Parrilla(widget.nivel, finJuego: resultado,),
+      body: Parrilla(widget.nivel),
       bottomNavigationBar: BottomAppBar(
         color: Color(0xFFF5DEB3),
         shape: CircularNotchedRectangle(),
@@ -222,6 +213,9 @@ class _TableroState extends State<Tablero> {
                     pauseClock=true;
                     mostrarDialogo(
                         "Jugar de nuevo", "¿Quieres cargar un juego nuevo?, se contará como partida perdida", () {
+                      setState(() {
+                        derrotasGlobal++;
+                      });
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => Tablero(widget.nivel)),
@@ -235,9 +229,6 @@ class _TableroState extends State<Tablero> {
                     pauseClock=true;
                     mostrarDialogo(
                         "Reiniciar", "¿Seguro que deseas reiniciar la partida?, se perderá el progreso del juego", () {
-                      setState(() {
-                        derrotasGlobal++;
-                      });
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => Tablero(widget.nivel)),

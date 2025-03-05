@@ -8,9 +8,8 @@ import '../config/config.dart';
 
 class Parrilla extends StatefulWidget {
   final Nivel? nivel;
-  final Function(bool) finJuego;
 
-  const Parrilla(this.nivel, {Key? key, required this.finJuego}) : super(key: key);
+  const Parrilla(this.nivel, {Key? key}) : super(key: key);
 
   @override
   _ParrillaState createState() => _ParrillaState();
@@ -68,7 +67,7 @@ class _ParrillaState extends State<Parrilla> {
               segundos = segundos! - 1;
             } else {
               _timer?.cancel();
-              widget.finJuego(false);
+              derrotasGlobal++;
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
               Navigator.pushReplacement(
                 context,
@@ -90,7 +89,7 @@ class _ParrillaState extends State<Parrilla> {
 
   void Ganador() {
     if (paresRestantes == 0) {
-      widget.finJuego(true);
+      victoriasGlobal++;
       _timer?.cancel();
       Future.delayed(const Duration(milliseconds: 500), () {
         Navigator.pushReplacement(
