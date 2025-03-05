@@ -187,7 +187,7 @@ class _TableroState extends State<Tablero> {
             onSelected: handleMenu,
             color: Color(0xFFFFD699),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15), // Bordes redondeados
+              borderRadius: BorderRadius.circular(15),
             ),
             itemBuilder: (context) => [
               _construirMenu(MenuOpciones.juego_nuevo, "Juego nuevo"),
